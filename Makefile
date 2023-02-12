@@ -42,14 +42,14 @@ EXTRA_HTML_DEPENDENCIES = HEADER.md FOOTER.md *.meta
 all: $(HTMLS)
 
 install-remote:
-	RSYNC_PREFIX=transientscu-www: make install-with-prefix
+	RSYNC_PREFIX=cu-public: make install-with-prefix
 
 install-local:
 	RSYNC_PREFIX="" make install-with-prefix
 
 install-with-prefix: all
 	rsync -v --chmod=u=rwX,go=rX \
-	  ratir.conf $$RSYNC_PREFIX/etc/apache2/sites-enabled/
+	  ratir.conf $$RSYNC_PREFIX/usr/local/var/www/ratir/
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
 	  --exclude=.git/ \
 	  --include=./ \
