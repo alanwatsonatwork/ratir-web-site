@@ -48,6 +48,7 @@ install-local:
 	RSYNC_PREFIX="" make install-with-prefix
 
 install-with-prefix: all
+	ssh cu-public mkdir -p /usr/local/var/www/ratir/
 	rsync -v --chmod=u=rwX,go=rX \
 	  ratir.conf $$RSYNC_PREFIX/usr/local/var/www/ratir/
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
