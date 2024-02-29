@@ -41,16 +41,10 @@ EXTRA_HTML_DEPENDENCIES = HEADER.md FOOTER.md *.meta
 
 all: $(HTMLS)
 
-install-remote:
-	RSYNC_PREFIX=cu-public: make install-with-prefix
 
-install-local:
-	RSYNC_PREFIX="" make install-with-prefix
-
-install-with-prefix: all
-	ssh cu-public mkdir -p /usr/local/var/www/ratir/
-	rsync -v --chmod=u=rwX,go=rX \
-	  ratir.conf $$RSYNC_PREFIX/usr/local/var/www/ratir/
+install:
+	REMOTE_HOST=acceso \
+	REMOTE_DIR=/nas/www/ratir/html/ \
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
 	  --exclude=.git/ \
 	  --include=./ \
@@ -62,7 +56,7 @@ install-with-prefix: all
 	  --include=*.css \
 	  --include=*.mp4 \
 	  --exclude=* \
-	  . $$RSYNC_PREFIX/usr/local/var/www/ratir/html
+	  . $$REMOTE_HOST:$$REMOTE_DIR
 
 ########################################################################
 
