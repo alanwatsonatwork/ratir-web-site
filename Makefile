@@ -39,13 +39,12 @@ HTMLS =	                  \
 
 EXTRA_HTML_DEPENDENCIES = HEADER.md FOOTER.md *.meta
 
-REMOTE_HOST=acceso
-REMOTE_DIR=nas/www/ratir/html/
-
 all: $(HTMLS)
 
-install: all
-	ssh $(REMOTE_HOST) "mkdir -p $(REMOTE_DIR)"
+
+install:
+	REMOTE_HOST=acceso \
+	REMOTE_DIR=/nas/www/ratir/html/ \
 	rsync -ahv --chmod=u=rwX,go=rX --delete \
 	  --exclude=.git/ \
 	  --include=./ \
@@ -57,7 +56,7 @@ install: all
 	  --include=*.css \
 	  --include=*.mp4 \
 	  --exclude=* \
-	  . $(REMOTE_HOST):$(REMOTE_DIR)
+	  . $$REMOTE_HOST:$$REMOTE_DIR
 
 ########################################################################
 
